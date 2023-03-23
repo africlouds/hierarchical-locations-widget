@@ -13,6 +13,8 @@ class LocationLoaded extends LocationsState {
   final Location location;
 
   const LocationLoaded({required this.location});
+  @override
+  List<Object> get props => [location];
 }
 
 class LocationLoadingFailed extends LocationsState {

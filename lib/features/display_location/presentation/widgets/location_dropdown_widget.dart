@@ -4,13 +4,15 @@ import 'package:hierarchical_locations_widget/constants.dart';
 import 'package:hierarchical_locations_widget/features/display_location/domain/entities/location.dart';
 import 'package:hierarchical_locations_widget/features/display_location/presentation/bloc/locations_bloc.dart';
 import 'package:hierarchical_locations_widget/features/display_location/presentation/widgets/text_field_container.dart';
+import 'package:logger/logger.dart';
 
 class LocationDropdownWidget extends StatefulWidget {
   final String? fieldLabel;
   final String fieldName;
   final String? fieldValue;
   final Location location;
-  final onChanged;
+  final ValueChanged<Location> onChanged;
+
   final double? width;
   final bool enabled;
   bool showChildren;
@@ -49,6 +51,7 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
     return BlocConsumer<LocationsBloc, LocationsState>(
       listener: (context, state) {
         if (state is LocationLoaded) {
+          Logger().d("KKKKKKK");
           setState(() {
             location = state.location;
           });
@@ -80,15 +83,17 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
                   items: locations.toList().map(
                     (val) {
                       return DropdownMenuItem<Location>(
-                        value: location,
+                        value: val,
                         child: Text(val.shortName.toString()),
                       );
                     },
                   ).toList(),
-                  onChanged: (value) {
+                  onChanged: (location) {
                     BlocProvider.of<LocationsBloc>(context)
-                        .add(LoadLocationEvent(fullName: value!.fullName));
-                    widget.onChanged;
+                        .add(GetLocationAncestorsEvent(location: location!));
+                    BlocProvider.of<LocationsBloc>(context)
+                        .add(GetLocationChildrenEvent(location: location));
+                    widget.onChanged(location);
                   }),
             ),
           ),

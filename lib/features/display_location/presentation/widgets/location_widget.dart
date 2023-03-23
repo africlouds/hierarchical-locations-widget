@@ -80,6 +80,7 @@ class _LocationWidgetState extends State<LocationWidget> {
                                 GetLocationAncestorsEvent(location: location!))
                             ..add(
                                 GetLocationChildrenEvent(location: location!)),
+                          onChanged: (Location value) {},
                         ),
                         200,
                         300,
