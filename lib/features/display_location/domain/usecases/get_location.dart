@@ -4,19 +4,19 @@ import 'package:hierarchical_locations_widget/core/usecases/usecase.dart';
 import 'package:hierarchical_locations_widget/features/display_location/domain/entities/location.dart';
 import 'package:hierarchical_locations_widget/features/display_location/domain/repositories/locations_repository.dart';
 
-class LoadLocation implements UseCase<Location, LocationParams> {
+class GetLocation implements UseCase<Location, GetLocationParams> {
   final LocationsRepository locationsRepository;
 
-  LoadLocation({required this.locationsRepository});
+  GetLocation({required this.locationsRepository});
   @override
   Future<Either<Failure, Location>> call(params) async {
-    final location = await locationsRepository.loadLocation(params.name);
+    final location = await locationsRepository.getLocation(params.name);
     return location;
   }
 }
 
-class LocationParams {
+class GetLocationParams {
   final String name;
 
-  LocationParams({required this.name});
+  GetLocationParams({required this.name});
 }

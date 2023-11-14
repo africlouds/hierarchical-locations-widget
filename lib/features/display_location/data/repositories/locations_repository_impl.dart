@@ -10,8 +10,8 @@ class LocationsRepositoryImpl implements LocationsRepository {
   LocationsRepositoryImpl({required this.locationsLocalDataSource});
 
   @override
-  Future<Either<Failure, Location>> loadLocation(String name) async {
-    final response = await locationsLocalDataSource.loadLocation(name);
+  Future<Either<Failure, Location>> getLocation(String name) async {
+    final response = await locationsLocalDataSource.getLocation(name);
     return Right(response);
   }
 

@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 
 abstract class LocationsLocalDataSource {
   Future<List<LocationModel>> loadLocations();
-  Future<LocationModel> loadLocation(String name);
+  Future<LocationModel> getLocation(String name);
   Future<List<Location>> getLocationAncestors(Location location);
   Future<List<LocationModel>> getLocationSubrings(Location location);
   Future<List<LocationModel>> getLocationChildren(Location location);
@@ -30,7 +30,7 @@ class LocationsLocalDataSourceImpl implements LocationsLocalDataSource {
   }
 
   @override
-  Future<LocationModel> loadLocation(String name) async {
+  Future<LocationModel> getLocation(String name) async {
     return LocationModel.fromString(name);
   }
 

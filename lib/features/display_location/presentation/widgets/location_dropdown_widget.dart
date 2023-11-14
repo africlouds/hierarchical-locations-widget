@@ -52,15 +52,17 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
       listener: (context, state) {
         if (state is LocationLoaded) {
           Logger().d("KKKKKKK");
-          setState(() {
-            location = state.location;
-          });
+          if (state.location == selectedLocation) {
+            setState(() {
+              location = state.location;
+            });
+          }
         }
         ;
       },
       builder: (context, state) {
         var locations =
-            widget.showChildren ? location.children : location.subrings;
+            widget.showChildren ? location.subrings : location.subrings;
         return SizedBox(
           width: widget.width,
           child: InkWell(
@@ -73,7 +75,7 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
                   hint: widget.showChildren
                       ? null
                       : Text(
-                          selectedLocation.shortName,
+                          location.shortName,
                           style: const TextStyle(
                               color: Colors.black, fontStyle: FontStyle.italic),
                         ),
@@ -89,11 +91,14 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
                     },
                   ).toList(),
                   onChanged: (location) {
+                    Logger().d(location);
+                    /*
                     BlocProvider.of<LocationsBloc>(context)
                         .add(GetLocationAncestorsEvent(location: location!));
                     BlocProvider.of<LocationsBloc>(context)
                         .add(GetLocationChildrenEvent(location: location));
-                    widget.onChanged(location);
+                    */
+                    widget.onChanged(location!);
                   }),
             ),
           ),

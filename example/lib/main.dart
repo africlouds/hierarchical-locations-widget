@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
+      home: const Scaffold(
           body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
+        children: [
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
             ),
           ),
           LocationWidget(
-              fileName: "locations.csv",
               defaultLocation:
                   "Rwanda/CITY OF KIGALI/Kicukiro/Nyarugunga/Kamashashi/Mulindi"),
         ],
