@@ -17,46 +17,30 @@ class LocationWidget extends StatefulWidget {
 }
 
 class _LocationWidgetState extends State<LocationWidget> {
-  Location? location;
   @override
   void initState() {
-    BlocProvider.of<LocationsBloc>(context)
-        .add(LoadLocationEvent(fullName: widget.defaultLocation));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<LocationsBloc, LocationsState>(
-      listener: (context, state) {
-        if (state is LocationLoaded) {
-          setState(() {
-            location = state.location;
-          });
-        }
+    return InkWell(
+      onTap: () {
+        showClosableDialog(
+            context,
+            LocationPicker(
+              locationName: widget.defaultLocation,
+              onChanged: (Location value) {},
+            ),
+            200,
+            300,
+            "");
       },
-      builder: (context, state) {
-        return location != null
-            ? InkWell(
-                onTap: () {
-                  showClosableDialog(
-                      context,
-                      LocationPicker(
-                        location: location!,
-                        onChanged: (Location value) {},
-                      ),
-                      200,
-                      300,
-                      "");
-                },
-                child: RoundedInputField(
-                  value: location!.fullName,
-                  width: 600,
-                  enabled: false,
-                ),
-              )
-            : const LoadingIndicator();
-      },
+      child: RoundedInputField(
+        value: widget.defaultLocation,
+        width: 600,
+        enabled: false,
+      ),
     );
   }
 }

@@ -31,7 +31,11 @@ class LocationsLocalDataSourceImpl implements LocationsLocalDataSource {
 
   @override
   Future<LocationModel> getLocation(String name) async {
-    return LocationModel.fromString(name);
+    var location = LocationModel.fromString(name);
+    location.ancestors = await getLocationAncestors(location);
+    location.subrings = await getLocationSubrings(location);
+    location.children = await getLocationChildren(location);
+    return location;
   }
 
   @override

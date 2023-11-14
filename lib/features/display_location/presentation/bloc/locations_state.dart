@@ -17,6 +17,8 @@ class LocationLoaded extends LocationsState {
   List<Object> get props => [location];
 }
 
+class LocationsLoading extends LocationsState {}
+
 class LocationLoadingFailed extends LocationsState {
   final String name;
 

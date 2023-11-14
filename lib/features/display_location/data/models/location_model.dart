@@ -1,4 +1,5 @@
 import 'package:hierarchical_locations_widget/features/display_location/domain/entities/location.dart';
+import 'package:logger/logger.dart';
 
 class LocationModel extends Location {
   LocationModel(
@@ -18,6 +19,7 @@ class LocationModel extends Location {
 
     var location = LocationModel(
         fullName: fullName, shortName: shortName, level: level, parent: parent);
+    Logger().d(location.parent);
     return location;
   }
 

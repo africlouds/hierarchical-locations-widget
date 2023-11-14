@@ -11,7 +11,7 @@ import 'package:hierarchical_locations_widget/features/display_location/presenta
 final getIt = GetIt.instance;
 Future<void> init() async {
   getIt.registerFactory(() => LocationsBloc(
-      loadLocation: getIt(),
+      getLocation: getIt(),
       getLocationAncestors: getIt(),
       getLocationChildren: getIt(),
       getLocationSubrings: getIt()));

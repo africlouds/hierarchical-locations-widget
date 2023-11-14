@@ -8,22 +8,22 @@ import 'package:hierarchical_locations_widget/features/display_location/presenta
 import 'package:logger/logger.dart';
 
 class LocationPicker extends StatefulWidget {
-  final Location location;
+  final String locationName;
   final ValueChanged<Location> onChanged;
 
   const LocationPicker(
-      {super.key, required this.location, required this.onChanged});
+      {super.key, required this.locationName, required this.onChanged});
 
   @override
   State<LocationPicker> createState() => _LocationPickerState();
 }
 
 class _LocationPickerState extends State<LocationPicker> {
+  Location? location;
   @override
   void initState() {
     BlocProvider.of<LocationsBloc>(context)
-      ..add(GetLocationAncestorsEvent(location: widget.location))
-      ..add(GetLocationChildrenEvent(location: widget.location));
+        .add(LoadLocationEvent(fullName: widget.locationName));
     super.initState();
   }
 
@@ -32,45 +32,55 @@ class _LocationPickerState extends State<LocationPicker> {
     return BlocConsumer<LocationsBloc, LocationsState>(
       listener: (context, state) {
         if (state is LocationLoaded) {
-          Logger().d(state.location.fullName);
+          setState(() {
+            location = state.location;
+          });
           widget.onChanged(state.location);
         }
       },
       builder: (context, state) {
-        if (state is LocationLoaded) {
-          return Column(
-            children: [
-              for (var ancestor in state.location.ancestors)
-                LocationDropdownWidget(
-                    location: ancestor,
-                    fieldValue: ancestor.shortName,
-                    fieldName: '',
-                    onChanged: (value) {
-                      BlocProvider.of<LocationsBloc>(context)
-                          .add(LoadLocationEvent(fullName: value.fullName));
-                    }),
-              LocationDropdownWidget(
-                  location: widget.location,
-                  fieldValue: widget.location.shortName,
-                  fieldName: '',
-                  onChanged: (value) {
-                    BlocProvider.of<LocationsBloc>(context)
-                        .add(LoadLocationEvent(fullName: value.fullName));
-                  }),
-              if (widget.location.children.isNotEmpty)
-                LocationDropdownWidget(
-                    location: widget.location,
-                    fieldValue: "",
-                    showChildren: true,
-                    fieldName: '',
-                    onChanged: (value) {
-                      BlocProvider.of<LocationsBloc>(context)
-                          .add(LoadLocationEvent(fullName: value.fullName));
-                    }),
-            ],
-          );
-        }
-        return const LoadingIndicator();
+        return location == null
+            ? const LoadingIndicator()
+            : Column(
+                children: [
+                  for (var ancestor in location!.ancestors)
+                    LocationDropdownWidget(
+                        location: ancestor,
+                        fieldValue: ancestor.shortName,
+                        fieldName: '',
+                        onChanged: (value) {
+                          setState(() {
+                            location = value;
+                          });
+                          BlocProvider.of<LocationsBloc>(context)
+                              .add(LoadLocationEvent(fullName: value.fullName));
+                        }),
+                  LocationDropdownWidget(
+                      location: location!,
+                      fieldValue: location!.shortName,
+                      fieldName: '',
+                      onChanged: (value) {
+                        setState(() {
+                          location = value;
+                        });
+                        BlocProvider.of<LocationsBloc>(context)
+                            .add(LoadLocationEvent(fullName: value.fullName));
+                      }),
+                  if (location!.children.isNotEmpty)
+                    LocationDropdownWidget(
+                        location: location!,
+                        fieldValue: "",
+                        showChildren: true,
+                        fieldName: '',
+                        onChanged: (value) {
+                          setState(() {
+                            location = value;
+                          });
+                          BlocProvider.of<LocationsBloc>(context)
+                              .add(LoadLocationEvent(fullName: value.fullName));
+                        }),
+                ],
+              );
       },
     );
   }
