@@ -23,7 +23,7 @@ class _LocationPickerState extends State<LocationPicker> {
   @override
   void initState() {
     BlocProvider.of<LocationsBloc>(context)
-        .add(LoadLocationEvent(fullName: widget.locationName));
+        .add(GetLocationEvent(fullName: widget.locationName));
     super.initState();
   }
 
@@ -46,15 +46,15 @@ class _LocationPickerState extends State<LocationPicker> {
                   for (var ancestor in location!.ancestors)
                     LocationDropdownWidget(
                         location: ancestor,
-                        fieldValue: ancestor.shortName,
+                        fieldValue: ancestor,
                         fieldName: '',
                         onChanged: (value) {
                           setState(() {
                             location = value;
                           });
                           BlocProvider.of<LocationsBloc>(context)
-                              .add(LoadLocationEvent(fullName: value.fullName));
-                        }),
+                              .add(GetLocationEvent(fullName: value.fullName));
+                        }), /*
                   LocationDropdownWidget(
                       location: location!,
                       fieldValue: location!.shortName,
@@ -78,7 +78,7 @@ class _LocationPickerState extends State<LocationPicker> {
                           });
                           BlocProvider.of<LocationsBloc>(context)
                               .add(LoadLocationEvent(fullName: value.fullName));
-                        }),
+                        }),*/
                 ],
               );
       },

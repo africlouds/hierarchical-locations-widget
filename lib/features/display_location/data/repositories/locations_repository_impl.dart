@@ -12,31 +12,10 @@ class LocationsRepositoryImpl implements LocationsRepository {
   @override
   Future<Either<Failure, Location>> getLocation(String name) async {
     final response = await locationsLocalDataSource.getLocation(name);
-    return Right(response);
-  }
-
-  @override
-  Future<Either<Failure, List<Location>>> getLocationAncestors(
-      Location location) async {
-    final response =
-        await locationsLocalDataSource.getLocationAncestors(location);
-    return Right(response);
-  }
-
-  @override
-  Future<Either<Failure, List<Location>>> getLocationSubrings(
-      Location location) async {
-    final response =
-        await locationsLocalDataSource.getLocationSubrings(location);
-    return Right(response);
-  }
-
-  @override
-  Future<Either<Failure, List<Location>>> getLocationChildren(
-      Location location) async {
-    final response =
-        await locationsLocalDataSource.getLocationChildren(location);
-    return Right(response);
-    // TODO: implement getLocationChildren
+    if (response != null) {
+      return Right(response);
+    } else {
+      return Left(ServerFailure());
+    }
   }
 }

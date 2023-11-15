@@ -3,30 +3,27 @@ import 'package:hierarchical_locations_widget/features/display_location/data/dat
 import 'package:hierarchical_locations_widget/features/display_location/data/repositories/locations_repository_impl.dart';
 import 'package:hierarchical_locations_widget/features/display_location/domain/repositories/locations_repository.dart';
 import 'package:hierarchical_locations_widget/features/display_location/domain/usecases/get_location.dart';
-import 'package:hierarchical_locations_widget/features/display_location/domain/usecases/get_location_ancestors.dart';
-import 'package:hierarchical_locations_widget/features/display_location/domain/usecases/get_location_children.dart';
-import 'package:hierarchical_locations_widget/features/display_location/domain/usecases/get_location_subrings.dart';
 import 'package:hierarchical_locations_widget/features/display_location/presentation/bloc/locations_bloc.dart';
+import 'package:sembast/sembast.dart';
+import 'package:sembast_web/sembast_web.dart';
 
 final getIt = GetIt.instance;
 Future<void> init() async {
   getIt.registerFactory(() => LocationsBloc(
-      getLocation: getIt(),
-      getLocationAncestors: getIt(),
-      getLocationChildren: getIt(),
-      getLocationSubrings: getIt()));
+        getLocation: getIt(),
+      ));
 
   getIt.registerLazySingleton(() => GetLocation(locationsRepository: getIt()));
-  getIt.registerLazySingleton(
-      () => GetLocationAncestors(locationsRepository: getIt()));
-  getIt.registerLazySingleton(
-      () => GetLocationChildren(locationsRepository: getIt()));
-  getIt.registerLazySingleton(
-      () => GetLocationSubrings(locationsRepository: getIt()));
 
   getIt.registerLazySingleton<LocationsRepository>(
       () => LocationsRepositoryImpl(locationsLocalDataSource: getIt()));
 
-  getIt.registerLazySingleton<LocationsLocalDataSource>(
-      () => LocationsLocalDataSourceImpl(fileName: "assets/locations.csv"));
+  StoreRef store = stringMapStoreFactory.store('locations');
+  var factory = databaseFactoryWeb;
+
+  // Open the database
+  var db = await factory.openDatabase('locations');
+  getIt.registerLazySingleton<LocationsLocalDataSource>(() =>
+      LocationsLocalDataSourceImpl(
+          fileName: "assets/locations.csv", store: store, db: db));
 }

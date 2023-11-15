@@ -4,8 +4,8 @@ class Location extends Equatable {
   final String fullName;
   final String shortName;
   final int level;
-  final Location? parent;
-  List<Location> ancestors = [];
+  final String? parent;
+  List<String> ancestors = [];
   List<Location> subrings = [];
   List<Location> children = [];
 

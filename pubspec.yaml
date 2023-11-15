@@ -16,6 +16,7 @@ dependencies:
   bloc: ^8.1.1
   equatable: ^2.0.5
   logger: ^2.0.1
+  sembast_web: ^2.2.0
 
 
 dev_dependencies:

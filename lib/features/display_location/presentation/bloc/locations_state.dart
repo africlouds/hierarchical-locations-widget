@@ -24,27 +24,3 @@ class LocationLoadingFailed extends LocationsState {
 
   const LocationLoadingFailed({required this.name});
 }
-
-class LocationSubringsLoaded extends LocationsState {
-  final Location location;
-  final List<Location> subrings;
-
-  const LocationSubringsLoaded(
-      {required this.location, required this.subrings});
-}
-
-class LocationAncestorsLoaded extends LocationsState {
-  final Location location;
-  final List<Location> ancestors;
-
-  const LocationAncestorsLoaded(
-      {required this.location, required this.ancestors});
-}
-
-class LocationChildrenLoaded extends LocationsState {
-  final Location location;
-  final List<Location> children;
-
-  const LocationChildrenLoaded(
-      {required this.location, required this.children});
-}

@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           ),
           LocationWidget(
               defaultLocation:
-                  "Rwanda/CITY OF KIGALI/Kicukiro/Nyarugunga/Kamashashi/Mulindi"),
+                  "Rwanda/CITY OF KIGALI/Kicukiro/Nyarugunga/Kamashashi"),
         ],
       )),
     );

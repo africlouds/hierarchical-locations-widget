@@ -7,26 +7,8 @@ abstract class LocationsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadLocationEvent extends LocationsEvent {
+class GetLocationEvent extends LocationsEvent {
   final String fullName;
 
-  LoadLocationEvent({required this.fullName});
-}
-
-class GetLocationSubringsEvent extends LocationsEvent {
-  final Location location;
-
-  GetLocationSubringsEvent({required this.location});
-}
-
-class GetLocationAncestorsEvent extends LocationsEvent {
-  final Location location;
-
-  GetLocationAncestorsEvent({required this.location});
-}
-
-class GetLocationChildrenEvent extends LocationsEvent {
-  final Location location;
-
-  GetLocationChildrenEvent({required this.location});
+  GetLocationEvent({required this.fullName});
 }
