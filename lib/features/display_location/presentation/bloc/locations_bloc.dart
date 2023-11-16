@@ -23,4 +23,9 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
           (r) => emit(LocationLoaded(location: r)));
     });
   }
+  Future<Location?> getLocationSync(String name) async {
+    final response = await getLocation(GetLocationParams(name: name));
+    var location = response.fold((l) => null, (r) => r);
+    return location;
+  }
 }

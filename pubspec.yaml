@@ -16,7 +16,6 @@ dependencies:
   bloc: ^8.1.1
   equatable: ^2.0.5
   logger: ^2.0.1
-  sembast_web: ^2.2.0
 
 
 dev_dependencies:
@@ -32,8 +31,7 @@ dev_dependencies:
 flutter:
 
   # To add assets to your package, add an assets section, like this:
-  assets:
-     - packages/hierarchical_locations_widget/assets/locations.csv
+  #assets:
   #   - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see

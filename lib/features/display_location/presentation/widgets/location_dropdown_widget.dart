@@ -13,6 +13,7 @@ class LocationDropdownWidget extends StatefulWidget {
   final String? fieldValue;
   final String location;
   final ValueChanged<Location> onChanged;
+  final String mode;
 
   final double? width;
   final bool enabled;
@@ -25,6 +26,7 @@ class LocationDropdownWidget extends StatefulWidget {
       required this.fieldName,
       required this.onChanged,
       this.fieldValue,
+      this.mode = 'Subrings',
       this.enabled = true,
       this.showChildren = false,
       this.width})
@@ -39,18 +41,32 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
   Location? selectedLocation;
   @override
   void initState() {
+    getLocation(widget.location);
     BlocProvider.of<LocationsBloc>(context)
         .add(GetLocationEvent(fullName: widget.location));
     // TODO: implement initState
     super.initState();
   }
 
+  void getLocation(String name) async {
+    var locationObj =
+        await BlocProvider.of<LocationsBloc>(context).getLocationSync(name);
+    setState(() {
+      location = locationObj;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<LocationsBloc, LocationsState>(
       listener: (context, state) {
-        if (state is LocationLoaded) {
-          Logger().d("KKKKKKK");
+        if (state is LocationLoaded &&
+            state.location.fullName != widget.location) {
+          Logger().d(state.location.fullName);
+          Logger().d(widget.location);
+        }
+        if (state is LocationLoaded &&
+            state.location.fullName == widget.location) {
           setState(() {
             location = state.location;
             selectedLocation = location;
@@ -59,8 +75,16 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
         ;
       },
       builder: (context, state) {
+        var options = [];
+        if (location != null) {
+          if (widget.mode == 'Subrings') {
+            options = location!.subrings;
+          } else {
+            options = location!.children;
+          }
+        }
         return selectedLocation == null
-            ? LoadingIndicator()
+            ? const LoadingIndicator()
             : SizedBox(
                 width: widget.width,
                 child: InkWell(
@@ -68,7 +92,7 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
                   child: TextFieldContainer(
                     label: widget.fieldLabel,
                     backgroundColor: widget.enabled ? editableColor : bgColor,
-                    child: DropdownButton<Location>(
+                    child: DropdownButton<String>(
                         underline: const SizedBox(),
                         hint: widget.showChildren
                             ? null
@@ -81,23 +105,22 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
                         isExpanded: true,
                         iconSize: 30.0,
                         style: const TextStyle(color: Colors.black),
-                        items: location!.subrings.toList().map(
+                        items: options.toList().map(
                           (val) {
-                            return DropdownMenuItem<Location>(
+                            return DropdownMenuItem<String>(
                               value: val,
-                              child: Text(val.shortName.toString()),
+                              child: Text(val.toString().split("/").last),
                             );
                           },
                         ).toList(),
                         onChanged: (location) {
-                          Logger().d(location);
                           /*
                     BlocProvider.of<LocationsBloc>(context)
                         .add(GetLocationAncestorsEvent(location: location!));
                     BlocProvider.of<LocationsBloc>(context)
                         .add(GetLocationChildrenEvent(location: location));
                     */
-                          widget.onChanged(location!);
+                          // widget.onChanged(location!);
                         }),
                   ),
                 ),

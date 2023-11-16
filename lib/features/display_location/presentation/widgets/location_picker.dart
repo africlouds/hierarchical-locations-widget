@@ -54,31 +54,32 @@ class _LocationPickerState extends State<LocationPicker> {
                           });
                           BlocProvider.of<LocationsBloc>(context)
                               .add(GetLocationEvent(fullName: value.fullName));
-                        }), /*
+                        }),
                   LocationDropdownWidget(
-                      location: location!,
-                      fieldValue: location!.shortName,
+                      location: location!.fullName,
+                      fieldValue: location!.fullName,
                       fieldName: '',
                       onChanged: (value) {
                         setState(() {
                           location = value;
                         });
                         BlocProvider.of<LocationsBloc>(context)
-                            .add(LoadLocationEvent(fullName: value.fullName));
+                            .add(GetLocationEvent(fullName: value.fullName));
                       }),
                   if (location!.children.isNotEmpty)
                     LocationDropdownWidget(
-                        location: location!,
+                        location: location!.fullName,
                         fieldValue: "",
                         showChildren: true,
+                        mode: 'Children',
                         fieldName: '',
                         onChanged: (value) {
                           setState(() {
                             location = value;
                           });
                           BlocProvider.of<LocationsBloc>(context)
-                              .add(LoadLocationEvent(fullName: value.fullName));
-                        }),*/
+                              .add(GetLocationEvent(fullName: value.fullName));
+                        }),
                 ],
               );
       },

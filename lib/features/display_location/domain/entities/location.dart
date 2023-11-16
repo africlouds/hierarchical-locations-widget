@@ -6,8 +6,8 @@ class Location extends Equatable {
   final int level;
   final String? parent;
   List<String> ancestors = [];
-  List<Location> subrings = [];
-  List<Location> children = [];
+  List<String> subrings = [];
+  List<String> children = [];
 
   Location(
       {required this.fullName,

@@ -31,7 +31,6 @@ class LocationModel extends Location {
         shortName: json['short_name'],
         level: json['level'],
         parent: json['parent']);
-    Logger().d(json['ancestors']);
     location.ancestors = json['ancestors'] as List<String>;
     return location;
   }
@@ -41,7 +40,9 @@ class LocationModel extends Location {
       'short_name': shortName,
       'level': level,
       'parent': parent,
-      'ancestors': ancestors
+      'ancestors': ancestors,
+      'subrings': subrings,
+      'children': children
     };
     return location;
   }

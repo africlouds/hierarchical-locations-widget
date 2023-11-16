@@ -32,8 +32,8 @@ class _LocationWidgetState extends State<LocationWidget> {
               locationName: widget.defaultLocation,
               onChanged: (Location value) {},
             ),
-            200,
-            300,
+            250,
+            400,
             "");
       },
       child: RoundedInputField(
