@@ -36,16 +36,23 @@ class LocationsLocalDataSourceImpl implements LocationsLocalDataSource {
     for (var i = 1; i < array.length; i++) {
       ancestors.add(array.sublist(0, i).toList().join("/"));
     }
-    Logger().d(ancestors);
     return ancestors;
   }
 
   List<String> getLocationSubrings(Location location) {
-    return locationsArray
-        .where((element) =>
-            element.startsWith(location.parent!) &&
-            element.split("/").length == location.level)
-        .toList();
+    Logger().d(
+        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    Logger().d(location);
+    if (location.parent != null)
+      return locationsArray
+          .where((element) =>
+              element.startsWith(location.parent!) &&
+              element.split("/").length == location.level)
+          .toList();
+    else
+      return locationsArray
+          .where((element) => element.split("/").length == 1)
+          .toList();
   }
 
   List<String> getLocationChildren(Location location) {
