@@ -113,14 +113,17 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
                             );
                           },
                         ).toList(),
-                        onChanged: (location) {
+                        onChanged: (location) async {
                           /*
                     BlocProvider.of<LocationsBloc>(context)
                         .add(GetLocationAncestorsEvent(location: location!));
                     BlocProvider.of<LocationsBloc>(context)
                         .add(GetLocationChildrenEvent(location: location));
                     */
-                          // widget.onChanged(location!);
+                          var locationObj =
+                              await BlocProvider.of<LocationsBloc>(context)
+                                  .getLocationSync(location!);
+                          widget.onChanged(locationObj!);
                         }),
                   ),
                 ),

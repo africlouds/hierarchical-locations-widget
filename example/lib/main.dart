@@ -16,11 +16,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(
+      home: Scaffold(
           body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
               "Hierarchical Location Widget",
@@ -28,8 +28,10 @@ class MyApp extends StatelessWidget {
             ),
           ),
           LocationWidget(
-              defaultLocation:
-                  "CITY OF KIGALI/Kicukiro/Nyarugunga/Kamashashi/Mulindi"),
+            defaultLocation:
+                "CITY OF KIGALI/Kicukiro/Nyarugunga/Kamashashi/Mulindi",
+            locationChanged: (value) {},
+          ),
         ],
       )),
     );

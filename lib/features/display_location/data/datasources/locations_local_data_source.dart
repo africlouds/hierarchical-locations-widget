@@ -1,8 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:hierarchical_locations_widget/features/display_location/data/models/location_model.dart';
 import 'package:hierarchical_locations_widget/features/display_location/domain/entities/location.dart';
-import 'package:flutter/services.dart';
-import 'package:logger/logger.dart';
 
 abstract class LocationsLocalDataSource {
   Future<LocationModel?> getLocation(String name);
@@ -26,7 +23,6 @@ class LocationsLocalDataSourceImpl implements LocationsLocalDataSource {
     location.ancestors = getLocationAncestors(location);
     location.subrings = getLocationSubrings(location);
     location.children = getLocationChildren(location);
-    Logger().d(location.toJson());
     return location;
   }
 
@@ -40,19 +36,17 @@ class LocationsLocalDataSourceImpl implements LocationsLocalDataSource {
   }
 
   List<String> getLocationSubrings(Location location) {
-    Logger().d(
-        "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-    Logger().d(location);
-    if (location.parent != null)
+    if (location.parent != null) {
       return locationsArray
           .where((element) =>
               element.startsWith(location.parent!) &&
               element.split("/").length == location.level)
           .toList();
-    else
+    } else {
       return locationsArray
           .where((element) => element.split("/").length == 1)
           .toList();
+    }
   }
 
   List<String> getLocationChildren(Location location) {

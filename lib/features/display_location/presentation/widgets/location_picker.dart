@@ -52,6 +52,7 @@ class _LocationPickerState extends State<LocationPicker> {
                           setState(() {
                             location = value;
                           });
+                          widget.onChanged(value);
                           BlocProvider.of<LocationsBloc>(context)
                               .add(GetLocationEvent(fullName: value.fullName));
                         }),
@@ -63,6 +64,7 @@ class _LocationPickerState extends State<LocationPicker> {
                         setState(() {
                           location = value;
                         });
+                        widget.onChanged(value);
                         BlocProvider.of<LocationsBloc>(context)
                             .add(GetLocationEvent(fullName: value.fullName));
                       }),
@@ -77,6 +79,7 @@ class _LocationPickerState extends State<LocationPicker> {
                           setState(() {
                             location = value;
                           });
+                          widget.onChanged(value);
                           BlocProvider.of<LocationsBloc>(context)
                               .add(GetLocationEvent(fullName: value.fullName));
                         }),
