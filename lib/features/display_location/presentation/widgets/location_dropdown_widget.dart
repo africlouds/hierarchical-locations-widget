@@ -61,11 +61,6 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
     return BlocConsumer<LocationsBloc, LocationsState>(
       listener: (context, state) {
         if (state is LocationLoaded &&
-            state.location.fullName != widget.location) {
-          //    Logger().d(state.location.fullName);
-          //   Logger().d(widget.location);
-        }
-        if (state is LocationLoaded &&
             state.location.fullName == widget.location) {
           setState(() {
             location = state.location;
@@ -97,7 +92,7 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
                         hint: widget.showChildren
                             ? null
                             : Text(
-                                location!.shortName,
+                                selectedLocation!.shortName,
                                 style: const TextStyle(
                                     color: Colors.black,
                                     fontStyle: FontStyle.italic),
@@ -123,6 +118,7 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
                           var locationObj =
                               await BlocProvider.of<LocationsBloc>(context)
                                   .getLocationSync(location!);
+                          selectedLocation = locationObj;
                           widget.onChanged(locationObj!);
                         }),
                   ),
