@@ -22,6 +22,13 @@ class LocationPicker extends StatefulWidget {
 
 class _LocationPickerState extends State<LocationPicker> {
   Location? location;
+  List<String> locationTypes = [
+    "Province",
+    "District",
+    "Sector",
+    "Cell",
+    "Village"
+  ];
   @override
   void initState() {
     BlocProvider.of<LocationsBloc>(context)
@@ -41,13 +48,14 @@ class _LocationPickerState extends State<LocationPicker> {
         }
       },
       builder: (context, state) {
-        if (location != null) Logger().d(location!.children);
         return location == null
             ? const LoadingIndicator()
             : Column(
                 children: [
                   for (var ancestor in location!.ancestors)
                     LocationDropdownWidget(
+                        fieldLabel:
+                            locationTypes[ancestor.split("/").length - 1],
                         location: ancestor,
                         fieldValue: ancestor,
                         fieldName: '',
@@ -60,6 +68,8 @@ class _LocationPickerState extends State<LocationPicker> {
                               .add(GetLocationEvent(fullName: value.fullName));
                         }),
                   LocationDropdownWidget(
+                      fieldLabel: locationTypes[
+                          location!.fullName.split("/").length - 1],
                       location: location!.fullName,
                       fieldValue: location!.fullName,
                       fieldName: '',
@@ -75,7 +85,8 @@ class _LocationPickerState extends State<LocationPicker> {
                     InkWell(
                       onTap: () {},
                       child: TextFieldContainer(
-                        label: 'Village',
+                        label: locationTypes[
+                            location!.children.first.split("/").length - 1],
                         child: DropdownButton<String>(
                             underline: const SizedBox(),
                             isExpanded: true,
