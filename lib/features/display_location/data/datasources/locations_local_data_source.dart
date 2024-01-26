@@ -1,5 +1,6 @@
 import 'package:hierarchical_locations_widget/features/display_location/data/models/location_model.dart';
 import 'package:hierarchical_locations_widget/features/display_location/domain/entities/location.dart';
+import 'package:logger/logger.dart';
 
 abstract class LocationsLocalDataSource {
   Future<LocationModel?> getLocation(String name);

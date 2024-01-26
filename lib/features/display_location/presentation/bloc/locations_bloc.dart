@@ -20,7 +20,7 @@ class LocationsBloc extends Bloc<LocationsEvent, LocationsState> {
       final response =
           await getLocation(GetLocationParams(name: event.fullName));
       response.fold((l) => emit(LocationLoadingFailed(name: event.fullName)),
-          (r) => emit(LocationLoaded(location: r)));
+          (r) => emit(GetLocationSuccessful(location: r)));
     });
   }
   Future<Location?> getLocationSync(String name) async {

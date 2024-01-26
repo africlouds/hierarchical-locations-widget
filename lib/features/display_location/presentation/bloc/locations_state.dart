@@ -9,10 +9,10 @@ abstract class LocationsState extends Equatable {
 
 class LocationsInitial extends LocationsState {}
 
-class LocationLoaded extends LocationsState {
+class GetLocationSuccessful extends LocationsState {
   final Location location;
 
-  const LocationLoaded({required this.location});
+  const GetLocationSuccessful({required this.location});
   @override
   List<Object> get props => [location];
 }

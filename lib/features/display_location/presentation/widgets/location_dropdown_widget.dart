@@ -5,7 +5,6 @@ import 'package:hierarchical_locations_widget/features/display_location/domain/e
 import 'package:hierarchical_locations_widget/features/display_location/presentation/bloc/locations_bloc.dart';
 import 'package:hierarchical_locations_widget/features/display_location/presentation/widgets/loading_indicator.dart';
 import 'package:hierarchical_locations_widget/features/display_location/presentation/widgets/text_field_container.dart';
-import 'package:logger/logger.dart';
 
 class LocationDropdownWidget extends StatefulWidget {
   final String? fieldLabel;
@@ -60,7 +59,7 @@ class _LocationDropdownWidgetState extends State<LocationDropdownWidget> {
   Widget build(BuildContext context) {
     return BlocConsumer<LocationsBloc, LocationsState>(
       listener: (context, state) {
-        if (state is LocationLoaded &&
+        if (state is GetLocationSuccessful &&
             state.location.fullName == widget.location) {
           setState(() {
             location = state.location;

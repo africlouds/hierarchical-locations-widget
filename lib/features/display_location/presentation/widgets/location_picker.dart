@@ -7,6 +7,8 @@ import 'package:hierarchical_locations_widget/features/display_location/presenta
 import 'package:hierarchical_locations_widget/features/display_location/presentation/widgets/location_dropdown_widget.dart';
 import 'package:logger/logger.dart';
 
+import 'text_field_container.dart';
+
 class LocationPicker extends StatefulWidget {
   final String locationName;
   final ValueChanged<Location> onChanged;
@@ -31,7 +33,7 @@ class _LocationPickerState extends State<LocationPicker> {
   Widget build(BuildContext context) {
     return BlocConsumer<LocationsBloc, LocationsState>(
       listener: (context, state) {
-        if (state is LocationLoaded) {
+        if (state is GetLocationSuccessful) {
           setState(() {
             location = state.location;
           });
@@ -39,6 +41,7 @@ class _LocationPickerState extends State<LocationPicker> {
         }
       },
       builder: (context, state) {
+        if (location != null) Logger().d(location!.children);
         return location == null
             ? const LoadingIndicator()
             : Column(
@@ -69,20 +72,29 @@ class _LocationPickerState extends State<LocationPicker> {
                             .add(GetLocationEvent(fullName: value.fullName));
                       }),
                   if (location!.children.isNotEmpty)
-                    LocationDropdownWidget(
-                        location: location!.fullName,
-                        fieldValue: "",
-                        showChildren: true,
-                        mode: 'Children',
-                        fieldName: '',
-                        onChanged: (value) {
-                          setState(() {
-                            location = value;
-                          });
-                          widget.onChanged(value);
-                          BlocProvider.of<LocationsBloc>(context)
-                              .add(GetLocationEvent(fullName: value.fullName));
-                        }),
+                    InkWell(
+                      onTap: () {},
+                      child: TextFieldContainer(
+                        label: 'Village',
+                        child: DropdownButton<String>(
+                            underline: const SizedBox(),
+                            isExpanded: true,
+                            iconSize: 30.0,
+                            style: const TextStyle(color: Colors.black),
+                            items: location!.children.map(
+                              (val) {
+                                return DropdownMenuItem<String>(
+                                  value: val,
+                                  child: Text(val.toString().split("/").last),
+                                );
+                              },
+                            ).toList(),
+                            onChanged: (value) async {
+                              BlocProvider.of<LocationsBloc>(context)
+                                  .add(GetLocationEvent(fullName: value!));
+                            }),
+                      ),
+                    )
                 ],
               );
       },
