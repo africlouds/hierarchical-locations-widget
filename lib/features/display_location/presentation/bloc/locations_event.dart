@@ -12,3 +12,13 @@ class GetLocationEvent extends LocationsEvent {
 
   GetLocationEvent({required this.fullName});
 }
+
+class UpdateLocationCoordinatesEvent extends LocationsEvent {
+  final String location;
+  final double latitude, longitude;
+
+  UpdateLocationCoordinatesEvent(
+      {required this.location,
+      required this.latitude,
+      required this.longitude});
+}

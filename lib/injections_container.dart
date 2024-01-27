@@ -4,15 +4,17 @@ import 'package:hierarchical_locations_widget/features/display_location/data/dat
 import 'package:hierarchical_locations_widget/features/display_location/data/repositories/locations_repository_impl.dart';
 import 'package:hierarchical_locations_widget/features/display_location/domain/repositories/locations_repository.dart';
 import 'package:hierarchical_locations_widget/features/display_location/domain/usecases/get_location.dart';
+import 'package:hierarchical_locations_widget/features/display_location/domain/usecases/update_location_coordinates.dart';
 import 'package:hierarchical_locations_widget/features/display_location/presentation/bloc/locations_bloc.dart';
 
 final getIt = GetIt.instance;
 Future<void> init() async {
-  getIt.registerFactory(() => LocationsBloc(
-        getLocation: getIt(),
-      ));
+  getIt.registerFactory(() =>
+      LocationsBloc(getLocation: getIt(), updateLocationCoordinates: getIt()));
 
   getIt.registerLazySingleton(() => GetLocation(locationsRepository: getIt()));
+  getIt.registerLazySingleton(
+      () => UpdateLocationCoordinates(locationsRepository: getIt()));
 
   getIt.registerLazySingleton<LocationsRepository>(
       () => LocationsRepositoryImpl(locationsLocalDataSource: getIt()));

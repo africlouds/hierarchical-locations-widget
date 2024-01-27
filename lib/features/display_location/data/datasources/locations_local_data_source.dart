@@ -4,6 +4,11 @@ import 'package:logger/logger.dart';
 
 abstract class LocationsLocalDataSource {
   Future<LocationModel?> getLocation(String name);
+
+  Future<LocationModel?> updateLocationCoordinates(
+      {required String location,
+      required double latitude,
+      required double longitude});
 }
 
 class LocationsLocalDataSourceImpl implements LocationsLocalDataSource {
@@ -63,5 +68,19 @@ class LocationsLocalDataSourceImpl implements LocationsLocalDataSource {
             element.startsWith(location.fullName) &&
             element.split("/").length == location.level + 1)
         .toList();
+  }
+
+  @override
+  Future<LocationModel?> updateLocationCoordinates(
+      {required String location,
+      required double latitude,
+      required double longitude}) async {
+    Logger().d(locationCoordinatesArray);
+    locationCoordinatesArray
+        .removeWhere((element) => element.startsWith("$location|"));
+    Logger().d(locationCoordinatesArray);
+    locationCoordinatesArray.add("$location|$latitude,$longitude");
+    Logger().d(locationCoordinatesArray);
+    return await getLocation(location);
   }
 }

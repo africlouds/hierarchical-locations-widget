@@ -24,3 +24,21 @@ class LocationLoadingFailed extends LocationsState {
 
   const LocationLoadingFailed({required this.name});
 }
+
+class UpdateLocationCoordinatesSuccessful extends LocationsState {
+  final Location location;
+
+  const UpdateLocationCoordinatesSuccessful({
+    required this.location,
+  });
+}
+
+class UpdateLocationCoordinatesFailed extends LocationsState {
+  final String location;
+  final double latitude, longitude;
+
+  const UpdateLocationCoordinatesFailed(
+      {required this.location,
+      required this.latitude,
+      required this.longitude});
+}

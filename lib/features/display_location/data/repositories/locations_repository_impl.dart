@@ -18,4 +18,18 @@ class LocationsRepositoryImpl implements LocationsRepository {
       return Left(ServerFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Location>> updateLocationCoordinates(
+      {required String location,
+      required double latitude,
+      required double longitude}) async {
+    final response = await locationsLocalDataSource.updateLocationCoordinates(
+        location: location, latitude: latitude, longitude: longitude);
+    if (response != null) {
+      return Right(response);
+    } else {
+      return Left(ServerFailure());
+    }
+  }
 }
