@@ -8,19 +8,26 @@ abstract class LocationsLocalDataSource {
 
 class LocationsLocalDataSourceImpl implements LocationsLocalDataSource {
   final String fileName;
+  final String coordinatesFileName;
   List<LocationModel> locations = [];
   final List<String> locationsArray;
+  final List<String> locationCoordinatesArray;
 
   LocationsLocalDataSourceImpl({
     required this.fileName,
+    required this.coordinatesFileName,
     required this.locationsArray,
+    required this.locationCoordinatesArray,
   }) {
     // loadLocations();
   }
 
   @override
   Future<LocationModel?> getLocation(String name) async {
-    var location = LocationModel.fromString(name);
+    String coordinates = locationCoordinatesArray.firstWhere(
+        (element) => element.toString().startsWith("$name|"),
+        orElse: () => "");
+    var location = LocationModel.fromString(name, coordinates);
     location.ancestors = getLocationAncestors(location);
     location.subrings = getLocationSubrings(location);
     location.children = getLocationChildren(location);

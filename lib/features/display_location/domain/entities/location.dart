@@ -5,6 +5,8 @@ class Location extends Equatable {
   final String shortName;
   final int level;
   final String? parent;
+  String? type;
+  double? latitude, longitude;
   List<String> ancestors = [];
   List<String> subrings = [];
   List<String> children = [];
@@ -13,6 +15,8 @@ class Location extends Equatable {
       {required this.fullName,
       required this.shortName,
       required this.level,
+      this.latitude,
+      this.longitude,
       this.parent});
 
   @override

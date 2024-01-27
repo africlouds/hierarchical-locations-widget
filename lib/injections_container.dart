@@ -20,11 +20,17 @@ Future<void> init() async {
   // Open the database
   var fileName = "assets/locations.csv";
   String locationString = await rootBundle.loadString(fileName);
+  var coordinatesFileName = "assets/locations_coordinates.csv";
+  String locationsCoordinatesString =
+      await rootBundle.loadString(coordinatesFileName);
   var locationsArray = locationString.split("\r\n");
+  var locationCoordinatesArray = locationsCoordinatesString.split("\r\n");
 
   getIt.registerLazySingleton<LocationsLocalDataSource>(
       () => LocationsLocalDataSourceImpl(
             fileName: "assets/locations.csv",
+            coordinatesFileName: "assets/locations_coordinates.csv",
             locationsArray: locationsArray,
+            locationCoordinatesArray: locationCoordinatesArray,
           ));
 }

@@ -8,7 +8,14 @@ class LocationModel extends Location {
       required super.level,
       super.parent});
 
-  factory LocationModel.fromString(String fullName) {
+  factory LocationModel.fromString(String fullName, String coordinates) {
+    List<String> locationTypes = [
+      "Province",
+      "District",
+      "Sector",
+      "Cell",
+      "Village"
+    ];
     var fullNameArray = fullName.split("/");
     var shortName = fullNameArray.last;
     int level = fullNameArray.length;
@@ -21,6 +28,12 @@ class LocationModel extends Location {
         shortName: shortName,
         level: level,
         parent: parentName);
+    location.type = locationTypes[level - 1];
+    if (coordinates != "") {
+      var geoCoordinates = coordinates.split("|").last;
+      location.latitude = double.parse(geoCoordinates.split(",").first);
+      location.longitude = double.parse(geoCoordinates.split(",").last);
+    }
 
     return location;
   }

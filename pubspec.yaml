@@ -16,6 +16,8 @@ dependencies:
   bloc: ^8.1.1
   equatable: ^2.0.5
   logger: ^2.0.1
+  location: ^4.1.1
+  flutter_map: ^5.0.0
 
 
 dev_dependencies:
